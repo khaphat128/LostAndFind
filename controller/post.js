@@ -74,9 +74,8 @@ const editPost = async (req, res) => {
 const getAllPosts = async (req, res) => {
   try {
     const values = req.body.searchValue || "";
-    let { status } = req.body;
+    let { status, pageNumber, pageSize } = req.body;
     let data;
-
     data = await postModel.aggregate([
       {
         $match: {
@@ -88,11 +87,21 @@ const getAllPosts = async (req, res) => {
             //nodejs express
             //driver: mongoose
 
-            { status: status },
+            { status: { $regex: status } },
           ],
         },
       },
-
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $skip: pageSize * (pageNumber - 1),
+      },
+      {
+        $limit: pageSize,
+      },
       {
         $lookup: {
           from: "users",
