@@ -14,6 +14,8 @@ const createPost = async (req, res, next) => {
       secretInformations,
       createdAt = Date.now(),
       updatedAt = Date.now(),
+      lost = "",
+      found = "",
     } = req.body;
 
     const newPost = await postModel.create({
@@ -26,6 +28,8 @@ const createPost = async (req, res, next) => {
       createdAt: createdAt,
       updatedAt: updatedAt,
       user: Object(`${userData._id}`),
+      lost: lost,
+      found: found,
     });
     return res.status(200).send({
       message: "post created successfully",

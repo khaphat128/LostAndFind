@@ -15,6 +15,7 @@ const register = async (req, res) => {
       email,
       phoneNumber,
       roleName = "user",
+      avt = "",
     } = req.body;
 
     const role = await roleModel.findOne({
@@ -30,6 +31,7 @@ const register = async (req, res) => {
       email: email,
       phoneNumber: phoneNumber,
       role: role._id,
+      avt: avt,
     });
 
     return res.status(201).send(newUser);
