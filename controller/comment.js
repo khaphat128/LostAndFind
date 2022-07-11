@@ -5,6 +5,7 @@ const createComment = async (req, res) => {
   try {
     let { message, postId } = req.body;
     const user = req.user;
+    console.log(req.user);
     const newComment = await commentModel.create({
       message: message,
       createdAt: Date.now(),

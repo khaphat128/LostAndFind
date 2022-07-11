@@ -177,19 +177,15 @@ const getOneUser = async (req, res, next) => {
 };
 
 const getMe = async (req, res) => {
-  // console.log("getMe");
   try {
-    const username = req.body.username;
-    console.log(username);
     const user = await userModel
       .findOne(
         {
-          username: username,
+          username: req.user.username,
         },
         "-password"
       )
       .populate("role");
-    // console.log(user);
     return res.status(200).send({
       data: user,
       message: "successfully",
