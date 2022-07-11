@@ -10,7 +10,6 @@ const userSchema = new Schema(
     password: String,
     name: String,
     email: String,
-    phoneNumber: String,
     createdAt: {
       type: Date,
       default: Date.now(),

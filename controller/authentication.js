@@ -13,7 +13,6 @@ const register = async (req, res) => {
       password,
       name,
       email,
-      phoneNumber,
       roleName = "user",
       avt = "",
     } = req.body;
@@ -29,7 +28,6 @@ const register = async (req, res) => {
       password: hashPassword,
       name: name,
       email: email,
-      phoneNumber: phoneNumber,
       role: role._id,
       avt: avt,
     });

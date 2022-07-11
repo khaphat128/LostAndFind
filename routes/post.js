@@ -9,8 +9,10 @@ const {
   getOne,
   approvePostByAdmin,
   updateStatusToFoundByUser,
+  getMyPost,
 } = require("../controller/post");
 const { findOneAndUpdate } = require("../model/user");
+router.get("/myposts", protected, verifyRole(["user"]), getMyPost);
 
 router.post("/", protected, verifyRole(["user"]), createPost);
 

@@ -17,6 +17,7 @@ const createPost = async (req, res, next) => {
       lost = "",
       found = "",
       statusDate,
+      phoneNumber,
     } = req.body;
 
     const newPost = await postModel.create({
@@ -32,6 +33,7 @@ const createPost = async (req, res, next) => {
       lost: lost,
       found: found,
       statusDate: statusDate,
+      phoneNumber: phoneNumber,
     });
     return res.status(200).send({
       message: "post created successfully",
@@ -45,7 +47,14 @@ const createPost = async (req, res, next) => {
 const editPost = async (req, res) => {
   try {
     const { postId } = req.params;
-    let { title, location, image, identifyMark, secretInformations } = req.body;
+    let {
+      title,
+      location,
+      image,
+      identifyMark,
+      secretInformations,
+      phoneNumber,
+    } = req.body;
 
     const post = await postModel.findOne({
       _id: postId,
@@ -61,6 +70,7 @@ const editPost = async (req, res) => {
           identifyMark: identifyMark,
           secretInformations: secretInformations,
           updatedAt: Date.now(),
+          phoneNumber: phoneNumber,
         })
         .where("_id", new ObjectId(postId));
     } else {
@@ -189,6 +199,18 @@ const approvePostByAdmin = async (req, res) => {
   }
 };
 
+const getMyPost = async (req, res) => {
+  try {
+    const data = await postModel.find({ user: req.user._id });
+    return res.status(200).send({
+      messages: "successfully",
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const updateStatusToFoundByUser = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -220,4 +242,5 @@ module.exports = {
   getOne,
   approvePostByAdmin,
   updateStatusToFoundByUser,
+  getMyPost,
 };
