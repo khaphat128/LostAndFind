@@ -26,6 +26,7 @@ const postSchema = new Schema(
     ],
     lost: String,
     found: String,
+    statusDate: Date,
   },
   {
     strictQuery: false,

@@ -1,4 +1,3 @@
-import cors from "cors";
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -13,14 +12,14 @@ const postRouter = require("./routes/post");
 const commentRouter = require("./routes/comment");
 
 const firebase = require("./seed/firebase");
-
+var cors = require("cors");
 const app = express();
+app.use(cors());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
