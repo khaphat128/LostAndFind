@@ -49,7 +49,7 @@ const editPost = async (req, res) => {
       _id: postId,
       status: "Waiting",
     });
-    console.log(post);
+    // console.log(post);
     if (post) {
       await postModel
         .updateOne({
