@@ -128,13 +128,15 @@ const getAllPosts = async (req, res) => {
       },
     ]);
 
+    const totalItem = data.length;
+
     // if (!values) {
     //   // console.log("no value");
     //   data = await postModel.find({}).populate("user");
 
     return res.status(200).send({
       messages: "successfully",
-      data: data,
+      data: { data: data, totalItem: totalItem },
     });
   } catch (error) {
     console.log(error);

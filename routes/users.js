@@ -23,5 +23,5 @@ router.get(
 router.post("/register", register);
 router.post("/login", login);
 router.get("/me", protected, verifyRole(["user"]), getMe);
-router.get("/:userId", protected, verifyRole(["admin"]), getOneUser);
+router.get("/:userId", getOneUser);
 module.exports = router;
