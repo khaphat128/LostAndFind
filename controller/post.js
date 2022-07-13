@@ -18,6 +18,7 @@ const createPost = async (req, res, next) => {
       found = "",
       statusDate,
       phoneNumber,
+      reasonRejected = "",
     } = req.body;
 
     const newPost = await postModel.create({
@@ -34,6 +35,7 @@ const createPost = async (req, res, next) => {
       found: found,
       statusDate: statusDate,
       phoneNumber: phoneNumber,
+      reasonRejected: reasonRejected,
     });
     return res.status(200).send({
       message: "post created successfully",
@@ -263,25 +265,38 @@ const updateStatusToFoundByUser = async (req, res) => {
 
 const rejectPostByAdmin = async (req, res) => {
   try {
-    let { postId, reasonRejected } = req.body;
-    // console.log(postId);
-    const rejectPost = await postModel.findOne({
-      status: "Waiting",
-      _id: postId,
-    });
+    const { postId, reasonRejected } = req.body;
+    console.log(reasonRejected);
+    const rejectPost = await postModel
+      .findOne({
+        status: "Waiting",
+      })
+      .where("_id", postId);
     // console.log(approvePost);
+    if (!reasonRejected) {
+      return res.status(200).send({
+        messages: "post id not found",
+      });
+    }
+    let query;
     if (rejectPost) {
-      await postModel
+      query = await postModel
         .updateOne({
           status: "Rejected",
-          rejectPost: reasonRejected,
+          reasonRejected: reasonRejected,
         })
         .where("_id", postId);
-      await postModel;
+      console.log("Rejected");
+      // await postModel
+      //   .updateOne({
+      //     rejectPost: reasonRejected,
+      //   })
+      //   .where("_id", postId);
     }
+
     return res.status(200).send({
       messages: "successfully",
-      data: rejectPost,
+      data: query,
     });
   } catch (error) {
     console.log(error);
