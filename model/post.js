@@ -28,6 +28,7 @@ const postSchema = new Schema(
     found: String,
     statusDate: Date,
     phoneNumber: String,
+    reasonRejected: String,
   },
   {
     strictQuery: false,

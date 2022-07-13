@@ -128,7 +128,30 @@ const getAllPosts = async (req, res) => {
       },
     ]);
 
-    const totalItem = data.length;
+    const totalItem = await postModel.aggregate([
+      {
+        $match: {
+          $and: [
+            {
+              title: { $regex: values },
+            },
+            //mongodb
+            //nodejs express
+            //driver: mongoose
+
+            { status: { $regex: status } },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+    ]);
 
     // if (!values) {
     //   // console.log("no value");
@@ -136,7 +159,7 @@ const getAllPosts = async (req, res) => {
 
     return res.status(200).send({
       messages: "successfully",
-      data: { data: data, totalItem: totalItem },
+      data: { data: data, totalItem: totalItem.length },
     });
   } catch (error) {
     console.log(error);
@@ -237,6 +260,33 @@ const updateStatusToFoundByUser = async (req, res) => {
     console.log(error);
   }
 };
+
+const rejectPostByAdmin = async (req, res) => {
+  try {
+    let { postId, reasonRejected } = req.body;
+    // console.log(postId);
+    const rejectPost = await postModel.findOne({
+      status: "Waiting",
+      _id: postId,
+    });
+    // console.log(approvePost);
+    if (rejectPost) {
+      await postModel
+        .updateOne({
+          status: "Rejected",
+          rejectPost: reasonRejected,
+        })
+        .where("_id", postId);
+      await postModel;
+    }
+    return res.status(200).send({
+      messages: "successfully",
+      data: rejectPost,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   createPost,
   editPost,
@@ -245,4 +295,5 @@ module.exports = {
   approvePostByAdmin,
   updateStatusToFoundByUser,
   getMyPost,
+  rejectPostByAdmin,
 };

@@ -10,6 +10,7 @@ const {
   approvePostByAdmin,
   updateStatusToFoundByUser,
   getMyPost,
+  rejectPostByAdmin,
 } = require("../controller/post");
 const { findOneAndUpdate } = require("../model/user");
 router.get("/myposts", protected, verifyRole(["user"]), getMyPost);
@@ -33,4 +34,5 @@ router.post(
   verifyRole(["admin"]),
   approvePostByAdmin
 );
+router.post("/reject", protected, verifyRole(["admin"]), rejectPostByAdmin);
 module.exports = router;
