@@ -101,9 +101,6 @@ const getAllPosts = async (req, res) => {
             {
               title: { $regex: values },
             },
-            //mongodb
-            //nodejs express
-            //driver: mongoose
 
             { status: { $regex: status } },
           ],
@@ -137,9 +134,6 @@ const getAllPosts = async (req, res) => {
             {
               title: { $regex: values },
             },
-            //mongodb
-            //nodejs express
-            //driver: mongoose
 
             { status: { $regex: status } },
           ],
