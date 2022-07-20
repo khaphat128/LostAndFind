@@ -238,25 +238,52 @@ const getMyPost = async (req, res) => {
   }
 };
 
-const updateStatusToFoundByUser = async (req, res) => {
+// const updateStatusToFoundByUser = async (req, res) => {
+//   try {
+//     const { postId } = req.params;
+//     const updateStatus = await postModel.findOne({
+//       status: "Approved",
+//       _id: postId,
+//     });
+//     // console.log(updateStatus);
+//     if (updateStatus) {
+//       await postModel
+//         .updateOne({
+//           status: "Found",
+//         })
+//         .where("_id", postId);
+//     }
+
+//     return res.status(200).send({
+//       messages: "successfully",
+//       data: "updated",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+const updateStatusToClosedByUser = async (req, res) => {
   try {
-    const { postId } = req.params;
+    const { postId } = req.body;
+    console.log(postId);
     const updateStatus = await postModel.findOne({
       status: "Approved",
       _id: postId,
     });
     // console.log(updateStatus);
+    let update;
     if (updateStatus) {
-      await postModel
+      update = await postModel
         .updateOne({
-          status: "Found",
+          status: "Closed",
         })
         .where("_id", postId);
     }
 
     return res.status(200).send({
       messages: "successfully",
-      data: "updated",
+      data: update,
     });
   } catch (error) {
     console.log(error);
@@ -308,7 +335,8 @@ module.exports = {
   getAllPosts,
   getOne,
   approvePostByAdmin,
-  updateStatusToFoundByUser,
+  // updateStatusToFoundByUser,
   getMyPost,
   rejectPostByAdmin,
+  updateStatusToClosedByUser,
 };

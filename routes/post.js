@@ -8,25 +8,33 @@ const {
   getAllPosts,
   getOne,
   approvePostByAdmin,
-  updateStatusToFoundByUser,
+  // updateStatusToFoundByUser,
   getMyPost,
   rejectPostByAdmin,
+  updateStatusToClosedByUser,
 } = require("../controller/post");
 const { findOneAndUpdate } = require("../model/user");
 router.get("/myposts", protected, verifyRole(["user"]), getMyPost);
 
 router.post("/", protected, verifyRole(["user"]), createPost);
 
+router.put(
+  "/closedPost",
+  protected,
+  verifyRole(["user"]),
+  updateStatusToClosedByUser
+);
 router.put("/:postId", protected, verifyRole(["user"]), editPost);
 
 router.post("/search", protected, verifyRole(["user", "admin"]), getAllPosts);
 
-router.put(
-  "/found/:postId",
-  protected,
-  verifyRole(["user"]),
-  updateStatusToFoundByUser
-);
+// router.put(
+//   "/found/:postId",
+//   protected,
+//   verifyRole(["user"]),
+//   updateStatusToFoundByUser
+// );
+
 router.get("/:postId", getOne);
 router.post(
   "/approve/:postId",
