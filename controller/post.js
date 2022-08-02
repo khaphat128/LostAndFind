@@ -56,6 +56,8 @@ const editPost = async (req, res) => {
       identifyMark,
       secretInformations,
       phoneNumber,
+      lost = "",
+      found = "",
     } = req.body;
 
     const post = await postModel.findOne({
@@ -73,6 +75,8 @@ const editPost = async (req, res) => {
           secretInformations: secretInformations,
           updatedAt: Date.now(),
           phoneNumber: phoneNumber,
+          lost: lost,
+          found: found,
         })
         .where("_id", new ObjectId(postId));
     } else {
